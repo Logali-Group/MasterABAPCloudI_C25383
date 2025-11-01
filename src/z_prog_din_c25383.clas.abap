@@ -1,0 +1,19 @@
+CLASS z_prog_din_c25383 DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES if_oo_adt_classrun.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS z_prog_din_c25383 IMPLEMENTATION.
+  METHOD if_oo_adt_classrun~main.
+
+  ENDMETHOD.
+
+ENDCLASS.
