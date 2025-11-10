@@ -56,8 +56,8 @@ CLASS zcl_fs_c25383 IMPLEMENTATION.
 *   LOOP AT lt_numeros ASSIGNING <fs_num>. "Con estructura tendría que cargar cambios con APPEND
 *     <fs_num> = <fs_num> * 2.
 *   ENDLOOP.
-
-
+*
+*
 *"Declaración den línes FS
 *   " ============================================
 *   " Leer vuelos de tabla demo
@@ -161,8 +161,8 @@ CLASS zcl_fs_c25383 IMPLEMENTATION.
 *
 *
 *   ENDLOOP.
-
-
+*
+*
 *"UNASSIGN
 *   " ============================================
 *   " UNASSIGN después de procesar
@@ -196,7 +196,7 @@ CLASS zcl_fs_c25383 IMPLEMENTATION.
 *   out->write( |   El FS ya no apunta al precio| ).
 *   out->write( |\n| ).
 *   out->write( |El dato original sigue: { lv_precio }| ).
-
+*
 *  " ============================================
 *   " Agregar reserva al final
 *   " ============================================
@@ -253,7 +253,7 @@ CLASS zcl_fs_c25383 IMPLEMENTATION.
 *   out->write( |\n| ).
 *   out->write( |Total reservas ahora: { lines( lt_bookings ) }| ).
 *
-
+*
 *  " ============================================
 *   " Insertar cliente VIP en posición 1
 *   " ============================================
@@ -321,98 +321,98 @@ CLASS zcl_fs_c25383 IMPLEMENTATION.
 *     out->write( |{ lv_pos }. { <customer>-customer_id } - { <customer>-first_name } { <customer>-last_name } { lv_tag }| ).
 *     lv_pos = lv_pos + 1.
 *   ENDLOOP.
-* ENDMETHOD.
-
+*
+*
 *   " ============================================
 *   " Buscar vuelo específico
 *   " ============================================
-*   out->write( |========================================| ).
-*   out->write( |  BUSCAR Y ACTUALIZAR VUELO            | ).
-*   out->write( |========================================| ).
-*   out->write( |\n| ).
-*
-*
-*   " Leer vuelos
-*   SELECT FROM /dmo/flight
-*          FIELDS carrier_id,
-*                 connection_id,
-*                 flight_date,
-*                 price,
-*                 currency_code
-*          WHERE carrier_id = 'LH'
-*          INTO TABLE @DATA(lt_flights)
-*          UP TO 5 ROWS.
-*
-*
-*   IF lt_flights IS INITIAL.
-*     out->write( |No hay vuelos| ).
-*     RETURN.
-*   ENDIF.
-*
-*
-*   out->write( |Vuelos en sistema:| ).
-*
-*
-*   LOOP AT lt_flights INTO DATA(ls_flight).
-*     out->write( |  { ls_flight-carrier_id } { ls_flight-connection_id } - { ls_flight-price } { ls_flight-currency_code }| ).
-*   ENDLOOP.
-*
-*
-*   " ============================================
-*   " READ: Buscar vuelo específico
-*   " ============================================
-*   out->write( |\n| ).
-*   out->write( | Buscar vuelo LH 0400...| ).
-*
-*
-*   " READ TABLE con Field Symbol
-*   READ TABLE lt_flights
-*        ASSIGNING FIELD-SYMBOL(<flight>)
-*        WITH KEY carrier_id = 'LH'
-*                 connection_id = '0400'.
-*
-*
-*   IF sy-subrc = 0.
-*     out->write( | Vuelo encontrado:| ).
-*     out->write( |  Precio actual: { <flight>-price } { <flight>-currency_code }| ).
-*
-*
-*     " Aplicar descuento especial
-*     DATA(lv_precio_anterior) = <flight>-price.
-*     <flight>-price = <flight>-price * '0.85'.
-*     out->write( |  Descuento 15% aplicado| ).
-*     out->write( |  Precio nuevo: { <flight>-price } { <flight>-currency_code }| ).
-*
-*
-*   ELSE.
-*     out->write( | Vuelo no encontrado| ).
-*   ENDIF.
-*
-*
-*   " ============================================
-*   " READ: Por índice
-*   " ============================================
-*   out->write( |\n| ).
-*   out->write( | Leer vuelo en posición 2...| ).
-*
-*READ TABLE lt_flights
-*        ASSIGNING FIELD-SYMBOL(<flight2>)
-*        INDEX 2.
-*
-*IF sy-subrc = 0.
-*     out->write( | { <flight2>-carrier_id } { <flight2>-connection_id } - { <flight2>-price } { <flight2>-currency_code }| ).
-*   ENDIF.
-*
-*" ============================================
-*   " Mostrar tabla final
-*   " ============================================
-*   out->write( |\n| ).
-*   out->write( |VUELOS ACTUALIZADOS:| ).
-*
-* LOOP AT lt_flights ASSIGNING FIELD-SYMBOL(<f>).
-*     out->write( |  { <f>-carrier_id } { <f>-connection_id } - { <f>-price } { <f>-currency_code }| ).
-*   ENDLOOP.
-*
+**   out->write( |========================================| ).
+**   out->write( |  BUSCAR Y ACTUALIZAR VUELO            | ).
+**   out->write( |========================================| ).
+**   out->write( |\n| ).
+
+
+   " Leer vuelos
+   SELECT FROM /dmo/flight
+          FIELDS carrier_id,
+                 connection_id,
+                 flight_date,
+                 price,
+                 currency_code
+          WHERE carrier_id = 'LH'
+          INTO TABLE @DATA(lt_flights)
+          UP TO 5 ROWS.
+
+
+   IF lt_flights IS INITIAL.
+     out->write( |No hay vuelos| ).
+     RETURN.
+   ENDIF.
+
+
+   out->write( |Vuelos en sistema:| ).
+
+
+   LOOP AT lt_flights INTO DATA(ls_flight).
+     out->write( |  { ls_flight-carrier_id } { ls_flight-connection_id } - { ls_flight-price } { ls_flight-currency_code }| ).
+   ENDLOOP.
+
+
+   " ============================================
+   " READ: Buscar vuelo específico
+   " ============================================
+   out->write( |\n| ).
+   out->write( | Buscar vuelo LH 0400...| ).
+
+
+   " READ TABLE con Field Symbol
+   READ TABLE lt_flights
+        ASSIGNING FIELD-SYMBOL(<flight>)
+        WITH KEY carrier_id = 'LH'
+                 connection_id = '0400'.
+
+
+   IF sy-subrc = 0.
+     out->write( | Vuelo encontrado:| ).
+     out->write( |  Precio actual: { <flight>-price } { <flight>-currency_code }| ).
+
+
+     " Aplicar descuento especial
+     DATA(lv_precio_anterior) = <flight>-price.
+     <flight>-price = <flight>-price * '0.85'.
+     out->write( |  Descuento 15% aplicado| ).
+     out->write( |  Precio nuevo: { <flight>-price } { <flight>-currency_code }| ).
+
+
+   ELSE.
+     out->write( | Vuelo no encontrado| ).
+   ENDIF.
+
+
+   " ============================================
+   " READ: Por índice
+   " ============================================
+   out->write( |\n| ).
+   out->write( | Leer vuelo en posición 2...| ).
+
+READ TABLE lt_flights
+        ASSIGNING FIELD-SYMBOL(<flight2>)
+        INDEX 2.
+
+IF sy-subrc = 0.
+     out->write( | { <flight2>-carrier_id } { <flight2>-connection_id } - { <flight2>-price } { <flight2>-currency_code }| ).
+   ENDIF.
+
+" ============================================
+   " Mostrar tabla final
+   " ============================================
+   out->write( |\n| ).
+   out->write( |VUELOS ACTUALIZADOS:| ).
+
+ LOOP AT lt_flights ASSIGNING FIELD-SYMBOL(<f>).
+     out->write( |  { <f>-carrier_id } { <f>-connection_id } - { <f>-price } { <f>-currency_code }| ).
+   ENDLOOP.
+
     ENDMETHOD.
 
 ENDCLASS.
